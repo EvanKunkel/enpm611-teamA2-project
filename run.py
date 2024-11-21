@@ -9,6 +9,7 @@ import argparse
 
 import config
 from example_analysis import ExampleAnalysis
+from issue_lifecycle_analysis import IssueLifecycleAnalysis
 from issue_state_analysis import IssueStateAnalysis
 
 
@@ -53,6 +54,6 @@ elif args.feature == 1:
 elif args.feature == 2:
     pass # TODO call second analysis
 elif args.feature == 3:
-    pass # TODO call third analysis
+    IssueLifecycleAnalysis().run()
 else:
     print('Need to specify which feature to run with --feature flag.')
