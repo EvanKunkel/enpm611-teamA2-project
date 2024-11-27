@@ -1,25 +1,21 @@
 import config
 from data_loader import DataLoader
-from model import Issue,Event
+from model import Issue
 from typing import List
-from datetime import datetime
-from plotting import plot_gantt_chart
+from plotting import plot_gantt_chart, plot_reopening_trend
 
 class IssueLifecycleAnalysis:
-    
     def __init__(self):
         self.USER:str = config.get_parameter('user')
         self.FEATURE:str = config.get_parameter('feature')
     
     def run(self):
+        IssueLifecycleAnalysis.plot_lifecycle()
+    
+    def plot_lifecycle():
         issues_list:List[Issue] = DataLoader().get_issues()
-        
-        reopened_events:int = 0
-        
         reopened_issues_list: List[Issue] = []
-        
         gantt_data = []
-        
         
         for i in issues_list:
             for e in i.events:
@@ -47,9 +43,7 @@ class IssueLifecycleAnalysis:
             j+=1
         
         plot_gantt_chart(gantt_data)
-    
-  
-        
+        plot_reopening_trend(reopened_issues_list)
 
 if __name__ == '__main__':
     IssueLifecycleAnalysis().run()
