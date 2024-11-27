@@ -2,7 +2,7 @@ import config
 from data_loader import DataLoader
 from model import Issue
 from typing import List
-from plotting import plot_gantt_chart, plot_reopening_trend
+from plotting import plot_gantt_chart, plot_reopening_trend, plot_reopened_issue_timing
 
 class IssueLifecycleAnalysis:
     def __init__(self):
@@ -44,6 +44,7 @@ class IssueLifecycleAnalysis:
         
         plot_gantt_chart(gantt_data)
         plot_reopening_trend(reopened_issues_list)
+        plot_reopened_issue_timing(reopened_issues_list)
 
 if __name__ == '__main__':
     IssueLifecycleAnalysis().run()

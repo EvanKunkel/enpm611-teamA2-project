@@ -1,6 +1,7 @@
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
+from datetime import datetime
 
 def pie_chart(data, title='Pie Chart', labels=None):
     """
@@ -112,11 +113,11 @@ def plot_reopening_trend(reopened_issues_list: list):
 
     # Creating a DataFrame for plotting
     reopening_data = pd.DataFrame({
-        'Month/Year': reopening_counts.index.astype(str),  # Convert period to string for display
+        'Month/Year': reopening_counts.index.astype(str), 
         'Number of Reopenings': reopening_counts.values
     })
 
-    # Plotting with matplotlib (bar chart)
+    # Plotting bar chart
     fig, ax = plt.subplots(figsize=(10, 6))
 
     bars = ax.bar(reopening_data['Month/Year'], reopening_data['Number of Reopenings'], color='teal', alpha=0.7)
@@ -131,5 +132,88 @@ def plot_reopening_trend(reopened_issues_list: list):
 
     ax.set_yticks(range(0, int(reopening_data['Number of Reopenings'].max()) + 1, 1))
 
+    plt.tight_layout()
+    plt.show()
+
+def categorize_reopened_time(issue):
+    """
+    Categorize the reopened issue based on the time difference between closing and reopening.
+    :param issue: Issue object with events.
+    :return: Category name as a string.
+    """
+    for event in issue.events:
+        closed_date: datetime.datetime
+        if event.event_type == "closed":
+            closed_date = event.event_date
+        if event.event_type == "reopened":
+            time_difference = event.event_date - closed_date
+            days = time_difference.days
+
+            if days <= 1:
+                return "within a day"
+            elif 1 < days < 7:
+                return "within a week"
+            elif 7 < days < 14:
+                return "7-14 days"
+            elif 14< days < 30:
+                return "14 days to a month"
+            elif 30< days < 182:
+                return "1-6 months"
+            elif 182< days < 365:
+                return "6-12 months"
+            else:
+                return "after one year"
+    return None
+
+def plot_reopened_issue_timing(issues_list):
+    """
+    Plot reopened issue timing as a Pie Chart with a legend showing percentages and counts.
+    :param issues_list: List of Issue objects.
+    """
+    # Categorize each reopened issue
+    reopen_categories = [
+        categorize_reopened_time(issue) 
+        for issue in issues_list 
+        if any(event.event_type == 'reopened' for event in issue.events)
+    ]
+
+    # Filter out None values and count occurrences
+    reopen_counts = pd.Series(filter(None, reopen_categories)).value_counts()
+
+    # Calculate percentages
+    total_reopened_issues = reopen_counts.sum()
+    reopen_percentages = (reopen_counts / total_reopened_issues) * 100
+    
+    category_order = [
+        "within a day", "within a week", "7-14 days", 
+        "14 days to a month", "1-6 months", "6-12 months", "after one year"
+    ]
+    reopen_counts = reopen_counts[category_order]
+    reopen_percentages = reopen_percentages[category_order]
+
+    # Labels for the donut chart
+    labels = reopen_counts.index
+
+    legend_labels = [
+        f"{category}: {reopen_percentages[category]:.1f}% ({reopen_counts[category]})"
+        for category in category_order
+        if category in reopen_counts.index
+    ]
+
+    # Plot Donut Chart
+    plt.figure(figsize=(8, 8))
+    wedges, texts = plt.pie(
+        reopen_percentages,
+        labels=labels,
+        startangle=140,
+        colors=plt.cm.Paired.colors,
+        wedgeprops={'width': 0.3}
+    )
+
+    plt.legend(
+        wedges, legend_labels, title="Reopen Timing", bbox_to_anchor=(1.05, 0.5)
+    )
+
+    plt.title("Time to Reopen Issues after being Closed\nTotal Reopened Issues: " + str(total_reopened_issues))
     plt.tight_layout()
     plt.show()
