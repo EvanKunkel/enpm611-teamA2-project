@@ -232,7 +232,7 @@ def categorize_reopened_time(issue):
 
 def plot_reopened_issue_timing(issues_list):
     """
-    Plot reopened issue timing as a Pie Chart with a legend showing percentages and counts.
+    Plot reopened issue timing as a Donut Chart with a legend showing percentages and counts.
     :param issues_list: List of Issue objects.
     """
     # Categorize each reopened issue
