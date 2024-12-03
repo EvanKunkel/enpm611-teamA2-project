@@ -1,6 +1,5 @@
 from typing import List
-import matplotlib.pyplot as plt
-import pandas as pd
+from plotting import plotList, plotSeries, plotLabelOverTime
 
 from data_loader import DataLoader
 from model import Issue
@@ -57,16 +56,11 @@ class LabelAnalysis:
     def plotTopLabels(self, all_labels:List[str]):
          # Display a graph of the top 20 labels
         top_num:int = 20
-        # Create a dataframe to make statistics a lot easier
-        df = pd.DataFrame(all_labels, columns=["label"])
-        # Determine the number of issues for each creator and generate a bar chart of the top N
-        df_hist = df.groupby(df["label"]).value_counts().nlargest(top_num).plot(kind="bar", figsize=(14,8), title=f"Top {top_num} labels")
-        # Set axes labels
-        df_hist.set_xlabel("Issue Labels")
-        df_hist.set_ylabel("# of issues")
-        # Plot the chart
-        plt.grid(axis='y', linestyle='--')
-        plt.show()
+        column:str = "label"
+        title:str  = f"Top {top_num} labels"
+        xlabel:str = "Issue Labels"
+        ylabel:str = "# of Issues"
+        plotList(all_labels, column, top_num, title, xlabel, ylabel)
         
     def simpleUnlabelingAnalysis(self, issues:List[Issue]):
         # Count the number of unlabeling events per issue
@@ -77,15 +71,11 @@ class LabelAnalysis:
 
         print(f"Average number of unlabeling events per issue: {sum(unlabeling_counts)/len(issues):.3f}\n")
 
-        # Create a series to make data easier to plot
-        series = pd.Series(unlabeling_counts)
-        df_hist = series.value_counts().sort_index().plot(kind="bar", figsize=(14,8), title=f"Distribution of Issues by Number of Unlabeling Events")
-        # Set axes labels
-        df_hist.set_xlabel("# of Unlabeling Events per Issue")
-        df_hist.set_ylabel("# of issues")
-        # Plot the chart
-        plt.grid(axis='y', linestyle='--')
-        plt.show()
+        # Plot the issues by number of unlabeling events
+        title:str  = "Distribution of Issues by Number of Unlabeling Events"
+        xlabel:str = "# of Unlabeling Events per Issue"
+        ylabel:str = "# of Issues"
+        plotSeries(unlabeling_counts, title, xlabel, ylabel)
         
     def plotIssuesOverTimeForLabel(self, issues:List[Issue]):
         # Show creation trends over time for user inputted parameter label
@@ -93,19 +83,11 @@ class LabelAnalysis:
             exit()
         
         label_list = [{"date": issue.created_date, "label": label} for issue in issues for label in issue.labels if label == self.LABEL]
-                
-        # Create a dataframe to make statistics a lot easier
-        df = pd.DataFrame(label_list)
-        df["month"] = df["date"].dt.to_period("M")
-        # Determine the number of new issues per month with the desired label and generate a graph
-        label_trends = df.groupby(["month", "label"]).size().unstack(fill_value=0).plot(figsize=(14,8), title=f"Trends Over Time For Label: {self.LABEL}")
-        # Set axes labels
-        label_trends.set_xlabel("Month")
-        label_trends.set_ylabel("# of issues")
-        # Plot trends
-        plt.grid()
-        plt.tight_layout()
-        plt.show()
+        
+        title:str  = f"Trends Over Time For Label: {self.LABEL}"
+        xlabel:str = "Month"
+        ylabel:str = "# of Issues"
+        plotLabelOverTime(label_list, title, xlabel, ylabel)
         
 if __name__ == '__main__':
     # Invoke run method when running this module directly
