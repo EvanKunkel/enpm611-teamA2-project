@@ -15,6 +15,10 @@ class IssueStateAnalysis:
         """
         Constructor
         """
+        # Parameter is passed in via command line (--user)
+        self.USER:str = config.get_parameter('user')
+        # Parameter is passed in via command line (--label)
+        self.LABEL:str = config.get_parameter('label')
         
     def run(self):
         """
