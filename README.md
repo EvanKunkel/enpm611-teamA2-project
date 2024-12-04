@@ -29,6 +29,25 @@ That will output basic information about the issues to the command line.
 
 ### Analysis One:
 
+This analysis focuses on issue activity by their state (Open vs. Closed), providing insights into the project's maintenance trends and potential backlogs. The feature can be run using:
+
+```bash
+python run.py --feature 1
+```
+
+#### Key Highlights
+
+- **Categorization**: Differentiates issues into Open and Closed states for better insights.
+- **Visualization**: Outputs a pie chart to visualize the distribution of Open and Closed issues.
+- **Modular Design**: Built using the `IssueStateAnalysis` class for flexibility and reusability.
+- **Workflow Integration**: Seamlessly added via the `--feature 1` flag in the CLI.
+
+#### Benefits
+
+- **Enhanced Insights**: Quickly identify backlogs and unresolved issues.
+- **Actionable Focus**: Visual summaries make decision-making easier.
+- **Future-Ready**: Scalable design for additional analysis and customizations.
+
 ### Analysis Two:
 
 The second feature provides insights on the issues based off of their labels. The basic capabilities of the feature can be ran with the following command:
