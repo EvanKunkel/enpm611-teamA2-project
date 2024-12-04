@@ -25,7 +25,7 @@ With everything set up, you should be able to run the existing example analysis:
 python run.py --feature 0
 ```
 
-That will output basic information about the issues to the command line.
+That will output basic information about the issues to the command line and plot a bar graph showing the top 50 issue creators by number of issues they created.
 
 ### Analysis One:
 
@@ -73,3 +73,21 @@ The feature provides the following analytics.
   - Plots the number of new issues created with a user inputted label by time (does nothing if no label is input)
 
 ### Analysis Three:
+
+The third feature aims to analyze the issue lifecycle: Created → Closed → Reopened. The timestamp for these events are used to plot various graphs which draw interesting insights:
+```
+python run.py --feature 3
+```
+
+The feature provides following:
+- Issue lifecycle analysis
+  - Plots a gantt chart to provide the entire lifecycle of an Issue from its creation to closing till reopening.
+  - Facilitates comparative analysis of multiple issues to identify patterns and bottlenecks.
+- Issue's reopening trends
+  - Plots a bar graph to display issue-reopening trends over time.
+  - Helps understand:
+    - Peaks in issue reopenings.
+    - Seasonal or periodic patterns in issue reoccurrence.
+- Time taken to reopen analysis
+  - Plots a donut chart which reveals insights into the speed of issue reopening after closure.
+  - Helps to identify whether issues are being addressed promptly or if delays exist in their resolution.
