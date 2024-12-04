@@ -12,7 +12,7 @@ class IssueLifecycleAnalysis:
     def run(self):
         IssueLifecycleAnalysis.plot_lifecycle()
     
-    def plot_lifecycle(self):
+    def plot_lifecycle():
         issues_list:List[Issue] = DataLoader().get_issues()
         reopened_issues_list: List[Issue] = []
         gantt_data = []
