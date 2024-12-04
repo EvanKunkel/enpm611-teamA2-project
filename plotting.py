@@ -280,6 +280,8 @@ def plot_reopened_issue_timing(issues_list):
     )
 
     plt.title("Time to Reopen Issues after being Closed\nTotal Reopened Issues: " + str(total_reopened_issues))
+    plt.tight_layout()
+    plt.show()
     
 def plotList(list, column, top_num, title, xlabel, ylabel):
     """
