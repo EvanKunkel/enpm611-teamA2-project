@@ -89,6 +89,15 @@ class LabelAnalysis:
         - The number of unique labels amongst all of the issues.
         - The number of issues that contain the label (all issues if label is None).
         """
+        # Type checking
+        if issues is None or all_labels is None:
+            return 0, 0
+        if not isinstance(issues, List) or not isinstance(all_labels, List):
+            return 0, 0
+        if len(issues) == 0 or len(all_labels) == 0:
+            return 0, 0
+        if not isinstance(issues[0], Issue) or not isinstance(all_labels[0], str):
+            return 0, 0
         return len(set(all_labels)), len([issue for issue in issues if label is None or label in issue.labels])
         
     def simpleUnlabelingAnalysis(self, issues:List[Issue]):
@@ -102,6 +111,8 @@ class LabelAnalysis:
         - A list of the number of unlabeling events per issue.
         - The total number of unlabeling events amongst all of the issues.
         """
+        if not isinstance(issues, List) or len(issues) == 0 or not isinstance(issues[0], Issue):
+            return [], 0
         # Count the number of unlabeling events per issue
         unlabeling_counts = [sum(1 for event in issue.events if event.event_type == "unlabeled") for issue in issues]
         return unlabeling_counts, sum(unlabeling_counts)
@@ -117,6 +128,8 @@ class LabelAnalysis:
         Returns:
         - A list of dictionaries with label & created_date values.
         """
+        if not isinstance(issues, List) or len(issues) == 0 or not isinstance(issues[0], Issue):
+            return []
         # Create a list of dictionaries with label & created_date values
         return [{"date": issue.created_date, "label": label} for issue in issues for label in issue.labels if label == labelIn]
         

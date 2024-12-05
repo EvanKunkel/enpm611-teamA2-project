@@ -91,3 +91,35 @@ The feature provides following:
 - Time taken to reopen analysis
   - Plots a donut chart which reveals insights into the speed of issue reopening after closure.
   - Helps to identify whether issues are being addressed promptly or if delays exist in their resolution.
+
+## Testing
+
+Each feature has its respective test cases, which can be found on the `test` branch or by viewing the PR for said branch. The results of our findings are as follows.
+
+### Analysis One:
+
+### Analysis Two:
+
+The test file for this feature can be found on the `test` branch and located at `~/tests/test_label_analysis.py`. The main bug that was found with the functions in feature 2 was that there was no type checking. This would lead to the program crashing if an invalid type was passed as an argument, such as `None`, an empty list, etc. As a part of the `test` branch, these type checks were added to `label_analysis.py` so that the bugs are resolved & the assertions pass. Additionally, unit tests are performed on each of the functions with basic data to ensure that the functions return what they should.
+
+### Analysis Three:
+
+#### Test File and Bug Fix for Feature 3
+
+The test file for this feature can be found on the `test` branch at `~/tests/test_issue_lifecycle_analysis.py`.
+
+During testing, a bug was identified in the methods within Feature 3. Specifically, the issue_lifecycle_analysis.py file methods were missing the `self` argument, which led to the following error when tests were run:  
+```
+TypeError: IssueLifecycleAnalysis.plot_lifecycle() takes 0 positional arguments but 1 was given  
+```
+This error typically occurs when a method that is supposed to be an instance method (i.e., a method that belongs to a class) is defined without the `self` parameter. The issue was resolved by adding `self` as an argument in the method definitions and calling. This fix eliminated the error, and the tests no longer fail. 
+
+#### Unit Tests
+The following unit tests were written to ensure proper functionality:
+
+- test_configuration_initialization: Verifies that the class correctly initializes its configuration parameters using mock data.
+- test_plot_lifecycle: Ensures the plotting functions (plot_gantt_chart, plot_reopening_trend, and plot_reopened_issue_timing) are called correctly with data for a single issue having both 'reopened' and 'closed' events.
+- test_multiple_issues: Confirms the correct handling of multiple issues, ensuring that gantt_data and reopened_issues_list are feeded properly for plotting.
+- test_issues_without_reopened_events: Validates that issues without 'reopened' events are excluded from plotting, ensuring all related functions handle such cases gracefully.
+
+These tests help verify the correctness of the functionality and ensure that the feature works as expected under different scenarios.

@@ -10,9 +10,9 @@ class IssueLifecycleAnalysis:
         self.FEATURE:str = config.get_parameter('feature')
     
     def run(self):
-        IssueLifecycleAnalysis.plot_lifecycle()
+        IssueLifecycleAnalysis.plot_lifecycle(self)
     
-    def plot_lifecycle():
+    def plot_lifecycle(self):
         issues_list:List[Issue] = DataLoader().get_issues()
         reopened_issues_list: List[Issue] = []
         gantt_data = []
