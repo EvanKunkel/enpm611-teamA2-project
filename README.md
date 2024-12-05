@@ -91,3 +91,15 @@ The feature provides following:
 - Time taken to reopen analysis
   - Plots a donut chart which reveals insights into the speed of issue reopening after closure.
   - Helps to identify whether issues are being addressed promptly or if delays exist in their resolution.
+
+## Testing
+
+Each feature has its respective test cases, which can be found on the `test` branch or by viewing the PR for said branch. The results of our findings are as follows.
+
+### Analysis One:
+
+### Analysis Two:
+
+The test file for this feature can be found on the `test` branch and located at `~/tests/test_label_analysis.py`. The main bug that was found with the functions in feature 2 was that there was no type checking. This would lead to the program crashing if an invalid type was passed as an argument, such as `None`, an empty list, etc. As a part of the `test` branch, these type checks were added to `label_analysis.py` so that the bugs are resolved & the assertions pass. Additionally, unit tests are performed on each of the functions with basic data to ensure that the functions return what they should.
+
+### Analysis Three:
