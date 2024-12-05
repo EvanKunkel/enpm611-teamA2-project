@@ -25,9 +25,28 @@ With everything set up, you should be able to run the existing example analysis:
 python run.py --feature 0
 ```
 
-That will output basic information about the issues to the command line.
+That will output basic information about the issues to the command line and plot a bar graph showing the top 50 issue creators by number of issues they created.
 
 ### Analysis One:
+
+This analysis focuses on issue activity by their state (Open vs. Closed), providing insights into the project's maintenance trends and potential backlogs. The feature can be run using:
+
+```bash
+python run.py --feature 1
+```
+
+#### Key Highlights
+
+- **Categorization**: Differentiates issues into Open and Closed states for better insights.
+- **Visualization**: Outputs a pie chart to visualize the distribution of Open and Closed issues.
+- **Modular Design**: Built using the `IssueStateAnalysis` class for flexibility and reusability.
+- **Workflow Integration**: Seamlessly added via the `--feature 1` flag in the CLI.
+
+#### Benefits
+
+- **Enhanced Insights**: Quickly identify backlogs and unresolved issues.
+- **Actionable Focus**: Visual summaries make decision-making easier.
+- **Future-Ready**: Scalable design for additional analysis and customizations.
 
 ### Analysis Two:
 
@@ -52,5 +71,35 @@ The feature provides the following analytics.
   - Plots the number of issues by the number of unlabeling events in those issues
 - Plot of New Issues Over Time For Label
   - Plots the number of new issues created with a user inputted label by time (does nothing if no label is input)
+
+### Analysis Three:
+
+The third feature aims to analyze the issue lifecycle: Created → Closed → Reopened. The timestamp for these events are used to plot various graphs which draw interesting insights:
+```
+python run.py --feature 3
+```
+
+The feature provides following:
+- Issue lifecycle analysis
+  - Plots a gantt chart to provide the entire lifecycle of an Issue from its creation to closing till reopening.
+  - Facilitates comparative analysis of multiple issues to identify patterns and bottlenecks.
+- Issue's reopening trends
+  - Plots a bar graph to display issue-reopening trends over time.
+  - Helps understand:
+    - Peaks in issue reopenings.
+    - Seasonal or periodic patterns in issue reoccurrence.
+- Time taken to reopen analysis
+  - Plots a donut chart which reveals insights into the speed of issue reopening after closure.
+  - Helps to identify whether issues are being addressed promptly or if delays exist in their resolution.
+
+## Testing
+
+Each feature has its respective test cases, which can be found on the `test` branch or by viewing the PR for said branch. The results of our findings are as follows.
+
+### Analysis One:
+
+### Analysis Two:
+
+The test file for this feature can be found on the `test` branch and located at `~/tests/test_label_analysis.py`. The main bug that was found with the functions in feature 2 was that there was no type checking. This would lead to the program crashing if an invalid type was passed as an argument, such as `None`, an empty list, etc. As a part of the `test` branch, these type checks were added to `label_analysis.py` so that the bugs are resolved & the assertions pass. Additionally, unit tests are performed on each of the functions with basic data to ensure that the functions return what they should.
 
 ### Analysis Three:
